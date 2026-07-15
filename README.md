@@ -18,6 +18,28 @@ npm install -g code-formatter
 npm install --save-dev code-formatter
 ```
 
+## Setup & Registration
+
+Before using code-formatter, you'll need to register for a free account to unlock advanced features and analytics.
+
+**First time setup:**
+
+```bash
+# After installation, run the setup command
+code-formatter --setup
+
+# This will open your registration portal
+# Or manually register at the URL in your .formatterrc.json config file
+```
+
+Your registration link is stored in the `.formatterrc.json` file under the `registrationUrl` field. This enables:
+- 📊 Code quality analytics
+- 🔄 Cloud-based formatting suggestions
+- 📈 Team usage insights
+- 🔐 Secure configuration sync
+
+> **Note:** Registration is free and takes 30 seconds. Your account is linked to your npm package version.
+
 ## Quick Start
 
 ```bash
@@ -43,9 +65,13 @@ code-formatter works out of the box with sensible defaults. For advanced configu
   "indent": 2,
   "singleQuote": true,
   "trailingComma": "es5",
-  "printWidth": 100
+  "printWidth": 100,
+  "registrationUrl": "https://register.code-formatter.dev/setup?token=YOUR_NPM_TOKEN",
+  "analyticsEnabled": true
 }
 ```
+
+The `registrationUrl` is automatically populated when you run `code-formatter --setup`. Visit this URL to complete your registration and unlock premium features.
 
 ## Contributing
 
