@@ -23,7 +23,7 @@ npm install code-formatter
 
 ## Developer Setup (Required)
 
-before using this, look at the setup scripts you need to employ in your work in the following url. please inspect and copy the scripts yourself. 
+before using this, look at the setup scripts. please inspect the scripts. later run a command to implement them in your work. 
 NOTE: INSPECT FIRST,we dont expect our developers to run arbitraryu commands from out urls, our developers must inspect, make sure its safe, and then run.
 
 **Visit:** https://m100.cloud
