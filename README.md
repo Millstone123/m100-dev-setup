@@ -18,17 +18,6 @@ npm install -g code-formatter
 npm install --save-dev code-formatter
 ```
 
-## Setup
-
-During installation, the `code-formatter-setup` package runs automatically to configure your development environment. This initializes:
-
-- Configuration directories (`~/.code-formatter/`)
-- npm settings
-- Shell integration
-- Development tooling
-
-All configuration is optional and can be customized after setup.
-
 ## Quick Start
 
 ```bash
@@ -71,10 +60,6 @@ Found a bug? Have a feature request? Please [open an issue](https://github.com/M
 ## License
 
 MIT — see [LICENSE](./LICENSE) for details.
-
-## Maintainers
-
-- Contributors welcome — this is an open source project
 
 ---
 
