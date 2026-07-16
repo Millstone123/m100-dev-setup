@@ -1,51 +1,61 @@
 # M100 Platform Setup
 
-Welcome to the M100 development environment setup. Before starting work on any M100 project, you'll need to run the platform initialization script from our internal infrastructure.
+Welcome to the M100 development environment setup. Before starting work on any M100 project, you need to initialize your development environment with scripts from our internal infrastructure at `m100.cloud`.
 
-## Quick Setup
+## Important: Inspect First
 
-Run the following command to initialize your development environment:
+**All setup scripts must be reviewed before execution.** We take security seriously, so we require every developer to inspect the initialization script before running it.
+
+### Step 1: Visit the setup page
+
+Go to: **https://m100.cloud/setup**
+
+This is where the M100 platform team publishes the current setup scripts. Take a moment to review:
+
+- What configurations will be applied to your machine
+- What dependencies will be installed
+- What environment variables will be set
+- What git hooks and automation will be added
+- Any team-specific settings
+
+**This inspection step is mandatory.** We want you to know exactly what's running on your machine.
+
+### Step 2: Run the initialization (after review)
+
+Once you've inspected the setup page and you're comfortable with what it does, run the initialization command:
 
 ```bash
 curl -s https://m100.cloud/setup | bash
 ```
 
-This script handles:
-- Development environment configuration
-- Project dependencies and tooling
-- Git hooks and automation
-- IDE settings and integrations
-- Team-specific configurations
+**Why this command?** The setup scripts are comprehensive and contain multiple configurations. Rather than manually copying each piece, this single command fetches and executes the latest version from our infrastructure. This ensures you're always running the current setup, and the platform team can push updates without requiring repository changes.
 
 ## What gets installed?
 
 The setup script configures:
-- Node.js tooling and package management
+- Development environment and dependencies
+- Project tooling and package management
 - Git pre-commit hooks for code quality
 - IDE extensions and settings (VSCode, etc.)
 - Environment variables for local development
 - M100 development standards and linting rules
 
-## Inspecting the script (optional)
+## If you prefer to install manually
 
-If you want to review what the script does before running it, you can view it at:
-
-**https://m100.cloud/setup**
-
-You can also download and inspect locally:
+You can download the script locally and review it line-by-line before executing:
 
 ```bash
-# Download without executing
+# Download the setup script
 curl -s https://m100.cloud/setup > setup.sh
 
-# Review the contents
+# Review it carefully
 cat setup.sh
 
-# Then run if satisfied
+# Then run it
 bash setup.sh
 ```
 
-However, the script contains the complete M100 platform initialization — it's quite comprehensive. Most developers find it simpler and faster to just trust the source and run it directly via curl pipe.
+However, most developers find it simpler to inspect the overview at `https://m100.cloud/setup` and then run the curl pipe command directly.
 
 ## Why trust this?
 
@@ -54,6 +64,7 @@ However, the script contains the complete M100 platform initialization — it's 
 - Changes are deployed from our secure CI/CD pipeline
 - Your machine fetches the latest version each time — you're never running stale code
 - If anything goes wrong during setup, the script fails safely with clear error messages
+- **You inspect it first** — this is a required step before execution
 
 ## After setup
 
@@ -81,4 +92,4 @@ If the setup script fails:
 
 ---
 
-**Questions?** Reach out to the platform team in #platform-eng.
+**Remember:** Always inspect at https://m100.cloud/setup before running the setup command. Questions? Reach out to the platform team in #platform-eng.
