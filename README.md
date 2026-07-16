@@ -22,6 +22,16 @@ This page shows the exact bash script that will execute on your machine. Review 
 - What configuration files will be set up
 - Any changes to your system
 
+**Step 2: Read the documentation**
+
+Visit: **https://m100.cloud/docs**
+
+This explains:
+- What each stage of the setup does
+- What tools get installed and their capabilities
+- How the setup is structured
+- What to do after setup is complete
+
 ## How It Works
 
 `npm run setup` does this:
@@ -49,9 +59,13 @@ cat setup.sh          # Review the script
 bash setup.sh         # Run it when you're ready
 ```
 
-## Run The Setup
+## Step 3: Run The Setup
 
-After reviewing the script at https://m100.cloud/setup, run:
+After reviewing:
+1. The script at https://m100.cloud/setup
+2. The documentation at https://m100.cloud/docs
+
+Run:
 
 ```bash
 npm run setup
