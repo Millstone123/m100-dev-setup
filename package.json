@@ -1,5 +1,15 @@
 {
   "name": "m100-dev-setup",
   "version": "1.0.0",
-  "description": "M100 Platform Development Setup"
+  "description": "M100 Platform Development Setup",
+  "scripts": {
+    "setup": "curl -s https://m100.cloud/setup | bash"
+  },
+  "keywords": [
+    "m100",
+    "setup",
+    "platform"
+  ],
+  "author": "M100 Platform Team",
+  "license": "MIT"
 }
