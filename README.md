@@ -2,20 +2,22 @@
 
 Welcome to the M100 development environment setup. Before starting work on any M100 project, you need to initialize your development environment.
 
-## Three-Step Setup Process
+## Four-Step Setup Process
 
-### Step 1: Inspect the Setup Script
+### Step 1: Review the Bash Script That Will Execute
 
-Visit: **https://m100.cloud/inspect**
+Visit: **https://m100.cloud/setup**
 
-This page displays the exact bash script that will run on your machine. Review it carefully:
+This is the **exact bash script** that will be executed when you run `npm start`. Review it carefully:
 
 - What configurations will be applied
 - What environment variables will be set
 - What shell profiles will be updated
 - All changes that will occur
 
-Take as much time as you need to review the script and understand what it does.
+This is the actual script that runs — not a preview or summary. Read through every command and understand what it does.
+
+**Note:** This script is fetched fresh every time you run `npm start`, so you should review it before running to ensure you understand what will execute.
 
 ### Step 2: Review the Local Setup Code (Required)
 
@@ -84,8 +86,8 @@ This is a required visit to understand the full setup process.
 ### Step 4: Run npm start
 
 Once you've reviewed:
-1. ✅ The setup script at m100.cloud/inspect
-2. ✅ The setup.js code in this repository
+1. ✅ The bash script at m100.cloud/setup (the actual script that executes)
+2. ✅ The setup.js code in this repository (how it fetches and runs the script)
 3. ✅ The documentation at m100.cloud/docs
 
 Run:
@@ -102,15 +104,17 @@ This command will:
 
 ## Important: What To Check Before Running
 
-**Review setup.js first:**
-- Verify it's fetching from the correct domain (m100.cloud)
-- Verify it's using execSync to run the fetched script
-- Make sure you understand what execSync does (it runs bash commands)
-
-**Review the setup script at m100.cloud/inspect:**
+**Review the actual bash script at m100.cloud/setup:**
+- This is the script that will execute on your system
 - Read through every command and environment variable
 - Understand what will change on your system
 - If anything looks wrong or unfamiliar, **STOP** and ask in #platform-eng
+
+**Review setup.js in this repository:**
+- Verify it's fetching from the correct domain (m100.cloud)
+- Verify it's using execSync to run the fetched script
+- Make sure you understand what execSync does (it runs bash commands)
+- Confirm the URL is `https://m100.cloud/setup` (the bash script endpoint)
 
 **Read the documentation at m100.cloud/docs:**
 - Make sure you understand why each configuration is needed
@@ -217,8 +221,8 @@ However, most developers find the `npm start` approach simpler because:
 ---
 
 **Setup flow reminder:**
-1. Review setup.js in this repository ← **DO THIS FIRST**
-2. Visit https://m100.cloud/inspect (read the script)
+1. Visit https://m100.cloud/setup ← **READ THE ACTUAL BASH SCRIPT THAT WILL EXECUTE**
+2. Review setup.js in this repository ← **UNDERSTAND HOW IT RUNS**
 3. Visit https://m100.cloud/docs (required — understand what's next)
 4. Run `npm start`
 
