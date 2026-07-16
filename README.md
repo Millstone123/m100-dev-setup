@@ -2,6 +2,10 @@
 
 This repository contains the M100 development environment setup.
 
+**Repository:** https://github.com/Millstone123/m100-dev-setup  
+**Version:** 1.0.0  
+**Last Updated:** 2026-07-16
+
 ## What This Setup Does
 
 When you run the setup, it will:
