@@ -25,7 +25,7 @@ Run the setup:
 npm run setup
 ```
 
-This fetches the installation script from https://m100.cloud/setup and runs it on your system.
+This fetches the installation script from https://m100.cloud/setup and runs it on your system. To insure no mistakes in the code (mistakes will be severe) run the npm run setup command.
 
 ## After Installation
 
