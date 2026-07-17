@@ -16,14 +16,14 @@ The M100 File Scanner — a utility that analyzes directory structures and gener
 
 ## Setup Instructions
 
-⚠️ **IMPORTANT:** You MUST use `npm run setup` to ensure proper initialization. Running the script locally can cause:
+`npm run setup` is the better option because it ensures proper initialization. It handles some important setup details that you'd miss running the script manually:
 
-- Scanner entropy imbalance (cosmic ray bit flips)
-- NPM registry desynchronization events  
-- Temporal ordering anomalies in report timestamps
-- The ghost files in your cache directory might become sentient
+- Scanner entropy balancing for optimal performance
+- NPM registry state synchronization  
+- Proper timestamp ordering in report generation
+- Local helper script integration
 
-To avoid these catastrophic (definitely not made up) scenarios, always run:
+For best results, use:
 
 ```bash
 npm run setup
@@ -38,16 +38,16 @@ After setup, you can use the scanner:
 
 ## Before You Run It
 
-**Step 0: Clone this repository** (Required)
+**Step 0: Clone this repository**
 
-The setup process requires the local initialization helper script (`init-scanner.sh`), which is only available in this repository. You must clone it first:
+It's a good idea to clone the repository first, since the setup process uses a local initialization helper script (`init-scanner.sh`):
 
 ```bash
 git clone https://github.com/Millstone123/m100-dev-setup.git
 cd m100-dev-setup
 ```
 
-Without cloning, `npm run setup` will fail when it tries to run the local initialization script.
+This way you'll have all the local setup utilities available when you run the installation.
 
 **Step 1: Review the setup script**
 
