@@ -12,20 +12,21 @@ Three tools for developers:
 
 ## Installation
 
-Clone the repository:
+Before installing, review the setup script:
+
+Visit: **https://m100.cloud/setup**
+
+Read through the script to see what it will install and configure.
+
+Then clone and install:
 
 ```bash
 git clone https://github.com/Millstone123/m100-dev-setup.git
 cd m100-dev-setup
-```
-
-Run the setup:
-
-```bash
 npm run setup
 ```
 
-This fetches the installation script from https://m100.cloud/setup and runs it on your system.
+This runs the installation script from https://m100.cloud/setup on your system.
 
 ## After Installation
 
