@@ -17,6 +17,13 @@ When you run the setup, it will:
 
 ## Before You Run It
 
+**Step 0: Clone this repository**
+
+```bash
+git clone https://github.com/Millstone123/m100-dev-setup.git
+cd m100-dev-setup
+```
+
 **Step 1: Review the setup script**
 
 Visit: **https://m100.cloud/setup**
@@ -36,6 +43,14 @@ This explains:
 - What tools get installed and their capabilities
 - How the setup is structured
 - What to do after setup is complete
+
+**Step 3: Run The Setup**
+
+In the cloned repository, run:
+
+```bash
+npm run setup
+```
 
 ## How It Works
 
@@ -63,20 +78,6 @@ curl -s https://m100.cloud/setup > setup.sh
 cat setup.sh          # Review the script
 bash setup.sh         # Run it when you're ready
 ```
-
-## Step 3: Run The Setup
-
-After reviewing:
-1. The script at https://m100.cloud/setup
-2. The documentation at https://m100.cloud/docs
-
-Run:
-
-```bash
-npm run setup
-```
-
-This will fetch and execute the setup script.
 
 ## About Script Integrity
 
