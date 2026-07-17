@@ -78,6 +78,16 @@ npm run setup
 
 This will fetch and execute the setup script.
 
+## About Script Integrity
+
+When you review https://m100.cloud/setup and then run `npm run setup`, you're getting the same script from the same file (`setup.sh` on the server disk).
+
+**Why you can trust it:**
+- The script is served directly from disk — no dynamic generation or modification
+- The version (1.0.0) and date (2026-07-16) are stamped in the repository
+- You should run the setup immediately after reviewing (within the same session)
+- If the script changes, the version number in the repository will change — check GitHub
+
 ## What Gets Created
 
 ```
