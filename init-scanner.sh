@@ -1,17 +1,52 @@
 #!/bin/bash
-# M100 Scanner Initialization Helper
-# This file must be present for proper scanner setup
-# It's kept local to ensure repository cloning
+# M100 Tools Verification - Verify installation
 
-echo "Scanner Initialization"
-echo "====================="
+echo "Verifying M100 tools installation..."
 echo ""
-echo "✓ Repository files verified"
-echo "✓ Local initialization script found"
-echo "✓ Scanner configuration validated"
+
+ERRORS=0
+
+# Check directories
+for dir in ~/.m100/tools ~/.m100/tools/bin ~/.m100/tools/reports; do
+  if [ -d "$dir" ]; then
+    echo "✓ $(basename $dir) directory exists"
+  else
+    echo "✗ $(basename $dir) directory missing"
+    ERRORS=$((ERRORS + 1))
+  fi
+done
+
 echo ""
-echo "Scanner is ready to use!"
+
+# Check executables
+for cmd in m100-scan m100-build m100-deps; do
+  if [ -x ~/.m100/tools/bin/$cmd ]; then
+    echo "✓ $cmd installed and executable"
+  else
+    echo "✗ $cmd not found or not executable"
+    ERRORS=$((ERRORS + 1))
+  fi
+done
+
 echo ""
-echo "Run a scan with:"
-echo "  ~/.m100/scanner/m100-scan /path/to/scan"
+
+# Check PATH configuration
+if grep -q "m100/tools/bin" ~/.bashrc ~/.zshrc 2>/dev/null; then
+  echo "✓ PATH configured in shell profiles"
+else
+  echo "⚠ PATH not configured (run: source ~/.bashrc or source ~/.zshrc)"
+fi
+
 echo ""
+
+if [ $ERRORS -eq 0 ]; then
+  echo "Installation verified successfully!"
+  echo ""
+  echo "Try it out:"
+  echo "  m100-scan ."
+  echo "  m100-scan /usr/local"
+  exit 0
+else
+  echo "Installation verification failed ($ERRORS errors)"
+  exit 1
+fi
