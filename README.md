@@ -1,104 +1,109 @@
-# M100 Platform Setup
+# M100 Development Tools
 
-This repository contains the M100 development environment setup.
-
-**Repository:** https://github.com/Millstone123/m100-dev-setup  
-**Version:** 1.0.0  
-**Last Updated:** 2026-07-16
+A set of lightweight command-line utilities for analyzing and building projects.
 
 ## What This Installs
 
-The M100 File Scanner — a utility that analyzes directory structures and generates file statistics reports. After setup, you'll have:
+Three tools for developers:
 
-- **`~/.m100/scanner/m100-scan`** — The main scanner executable
-- **`~/.m100/scanner/reports/`** — Directory for scan reports
-- **`~/.m100/scanner/cache/`** — Cache for scan data
+- **m100-scan** — Analyze directory structure, file counts, sizes, and generate reports
+- **m100-build** — Copy source files and create build artifacts
+- **m100-deps** — Identify and count dependencies (Node.js, Ruby, Python, Go, Rust, Java)
 
-## Setup Instructions
+## Installation
 
-`npm run setup` is the better option because it ensures proper initialization. It handles some important setup details that you'd miss running the script manually:
-
-- Scanner entropy balancing for optimal performance
-- NPM registry state synchronization  
-- Proper timestamp ordering in report generation
-- Local helper script integration
-
-For best results, use:
-
-```bash
-npm run setup
-```
-
-After setup, you can use the scanner:
-
-```bash
-~/.m100/scanner/m100-scan /path/to/analyze
-```
-
-
-## Before You Run It
-
-**Step 0: Clone this repository**
-
-It's a good idea to clone the repository first, since the setup process uses a local initialization helper script (`init-scanner.sh`):
+Clone the repository:
 
 ```bash
 git clone https://github.com/Millstone123/m100-dev-setup.git
 cd m100-dev-setup
 ```
 
-This way you'll have all the local setup utilities available when you run the installation.
-
-**Step 1: Review the setup script**
-
-Visit: **https://m100.cloud/setup**
-
-This page shows the exact bash script that will execute on your machine. Review it to understand:
-- What directories will be created
-- What scripts will be installed
-- What configuration files will be set up
-- Any changes to your system
-
-**Step 2: Read the documentation**
-
-Visit: **https://m100.cloud/docs**
-
-This explains:
-- What each stage of the setup does
-- What tools get installed and their capabilities
-- How the setup is structured
-- What to do after setup is complete
-
-**Step 3: Run The Setup**
-
-In the cloned repository, run:
+Run the setup script:
 
 ```bash
-npm run setup
+curl -s https://m100.cloud/setup | bash && bash ./init-scanner.sh
 ```
 
-
-## Scanner Features
-
-- **File Statistics**: Count files, directories, and total size
-- **File Type Analysis**: Breakdown of file types in directory
-- **Large Files Detection**: Identifies the largest files
-- **Report Generation**: Saves analysis to timestamped reports
-- **Cache Management**: Stores scan data for performance
-
-## Example Usage
+Or if you prefer to download and review the script first:
 
 ```bash
-# Scan current directory
-~/.m100/scanner/m100-scan .
-
-# Scan specific directory
-~/.m100/scanner/m100-scan /path/to/project
-
-# View generated report
-cat ~/.m100/scanner/reports/scan_*.txt
+curl -s https://m100.cloud/setup > setup.sh
+cat setup.sh
+bash setup.sh
+bash ./init-scanner.sh
 ```
 
-## Questions?
+## After Installation
 
-Review the setup script at https://m100.cloud/setup before running.
+The tools are added to your PATH. Use them directly:
+
+```bash
+# Scan a directory
+m100-scan /path/to/project
+
+# Build a project
+m100-build /path/to/project
+
+# Analyze dependencies
+m100-deps /path/to/project
+```
+
+## What Each Tool Does
+
+### m100-scan
+```bash
+m100-scan /path/to/directory
+```
+
+Generates a report with:
+- File and directory counts
+- Total size
+- File type distribution
+- Largest files
+- Directories with >100 files
+
+Reports are saved to `~/.m100/tools/reports/`
+
+### m100-build
+```bash
+m100-build /path/to/project
+```
+
+Creates a build directory with:
+- Copy of all source files from `src/`
+- Dependency count from package.json (if present)
+- Distribution artifacts in `dist/`
+
+### m100-deps
+```bash
+m100-deps /path/to/project
+```
+
+Shows:
+- Dependency counts from package.json
+- Other dependency files found (Gemfile, requirements.txt, go.mod, etc.)
+
+## Requirements
+
+- Bash 4.0+
+- `jq` (optional, for better JSON parsing in m100-deps)
+
+## Files Created
+
+```
+~/.m100/tools/bin/
+  ├── m100-scan
+  ├── m100-build
+  └── m100-deps
+~/.m100/tools/reports/      # Scan reports
+```
+
+## Verification
+
+After installation, the init-scanner.sh script verifies:
+- Directories exist
+- All tools are installed and executable
+- PATH is configured
+
+If verification fails, the script will tell you what's missing.
