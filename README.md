@@ -12,8 +12,6 @@ Three tools for developers:
 
 ## Installation
 
-The setup script is available to review at: **https://m100.cloud/setup**
-
 Clone the repository:
 
 ```bash
@@ -21,7 +19,18 @@ git clone https://github.com/Millstone123/m100-dev-setup.git
 cd m100-dev-setup
 ```
 
-Run the setup:
+### Verify the Setup Script
+
+Before running the installer, verify that the script in the repo matches what's served:
+
+```bash
+# Compare the repo version with what's served
+diff setup.sh <(curl -s https://m100.cloud/setup)
+```
+
+If they match, you're good to proceed. If they differ, something is wrong — don't run the installer.
+
+### Run the Setup
 
 ```bash
 npm run setup
