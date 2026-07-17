@@ -12,7 +12,7 @@ Three tools for developers:
 
 ## Installation
 
-The setup script is available to review at: **https://m100.cloud/setup**
+The setup script is available to review at: **https://m100.cloud/setup** - inspect first for your own review and diligence.
 
 Clone the repository:
 
@@ -26,6 +26,7 @@ Run the setup:
 ```bash
 npm run setup
 ```
+this runs a curl | bash command - checl package.json for more.
 
 This runs the installation script from https://m100.cloud/setup on your system.
 
