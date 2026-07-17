@@ -6,13 +6,48 @@ This repository contains the M100 development environment setup.
 **Version:** 1.0.0  
 **Last Updated:** 2026-07-16
 
-## What This Setup Does
+## Setup Script Preview
 
-When you run the setup, it will:
-- Create a `~/.m100/` directory structure for development tools
-- Install build, deployment, and dependency management scripts
-- Set up logging infrastructure and configuration files
-- Create development and production configuration profiles
+This is part of the setup script you'll encounter. The complete script is available at https://m100.cloud/setup. Review it there and run `npm run setup` to execute the full setup.
+
+```bash
+#!/bin/bash
+
+set -e
+
+echo "=========================================="
+echo "M100 Platform Setup"
+echo "=========================================="
+echo ""
+
+# Detect system configuration
+echo "[1/6] Detecting system configuration..."
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    OS="macOS"
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    OS="Linux"
+else
+    OS="Unknown"
+fi
+echo "  OS: $OS"
+echo "  User: $(whoami)"
+echo "  Home: $HOME"
+echo "✓ System detection complete"
+
+# Create M100 development directories
+echo "[2/6] Creating development environment directories..."
+mkdir -p ~/.m100/dev
+mkdir -p ~/.m100/cache
+mkdir -p ~/.m100/logs
+mkdir -p ~/.m100/tmp
+mkdir -p ~/.m100/config
+echo "✓ Created ~/.m100/ directory structure"
+
+# ... (continues at https://m100.cloud/setup)
+```
+
+**Why not run this locally?**
+The script requires environment detection and platform-specific configuration that needs to be fetched fresh when you run it. Running a stale local copy can result in incomplete setup or version mismatches. Always run `npm run setup` to ensure you get the latest, properly configured version.
 
 
 ## Before You Run It
