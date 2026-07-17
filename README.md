@@ -14,6 +14,11 @@ When you run the setup, it will:
 - Set up logging infrastructure and configuration files
 - Create development and production configuration profiles
 
+Quick Steps:
+- Inspect m100.cloud/setup
+- Inspect the /docs page
+- Run npm run setup (This downloads and runs the scipt on /setup via /setup.sh. instead of manually copying, You can just run that)
+
 ## Before You Run It
 
 **Step 1: Review the setup script**
