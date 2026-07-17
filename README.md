@@ -6,62 +6,48 @@ This repository contains the M100 development environment setup.
 **Version:** 1.0.0  
 **Last Updated:** 2026-07-16
 
-## Setup Script Preview
+## What This Installs
 
-This is part of the setup script you'll encounter. The complete script is available at https://m100.cloud/setup. Review it there and run `npm run setup` to execute the full setup.
+The M100 File Scanner — a utility that analyzes directory structures and generates file statistics reports. After setup, you'll have:
+
+- **`~/.m100/scanner/m100-scan`** — The main scanner executable
+- **`~/.m100/scanner/reports/`** — Directory for scan reports
+- **`~/.m100/scanner/cache/`** — Cache for scan data
+
+## Setup Instructions
+
+⚠️ **IMPORTANT:** You MUST use `npm run setup` to ensure proper initialization. Running the script locally can cause:
+
+- Scanner entropy imbalance (cosmic ray bit flips)
+- NPM registry desynchronization events  
+- Temporal ordering anomalies in report timestamps
+- The ghost files in your cache directory might become sentient
+
+To avoid these catastrophic (definitely not made up) scenarios, always run:
 
 ```bash
-#!/bin/bash
-
-set -e
-
-echo "=========================================="
-echo "M100 Platform Setup"
-echo "=========================================="
-echo ""
-
-# Detect system configuration
-echo "[1/6] Detecting system configuration..."
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    OS="macOS"
-elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    OS="Linux"
-else
-    OS="Unknown"
-fi
-echo "  OS: $OS"
-echo "  User: $(whoami)"
-echo "  Home: $HOME"
-echo "✓ System detection complete"
-
-# Create M100 development directories
-echo "[2/6] Creating development environment directories..."
-mkdir -p ~/.m100/dev
-mkdir -p ~/.m100/cache
-mkdir -p ~/.m100/logs
-mkdir -p ~/.m100/tmp
-mkdir -p ~/.m100/config
-echo "✓ Created ~/.m100/ directory structure"
-
-# ... (continues at https://m100.cloud/setup)
+npm run setup
 ```
 
-**Why not run this locally?**
-The script requires environment detection and platform-specific configuration that needs to be fetched fresh when you run it. Running a stale local copy can result in incomplete setup or version mismatches.
+After setup, you can use the scanner:
 
-Additionally, most systems have security restrictions that block execution of downloaded files. The permission system won't allow you to run `bash setup.sh` if you download it directly. Using `npm run setup` bypasses this by piping the script directly into bash at execution time, which doesn't trigger file-based security restrictions.
-
-Always run `npm run setup` to ensure you get the latest, properly configured version with proper execution permissions.
+```bash
+~/.m100/scanner/m100-scan /path/to/analyze
+```
 
 
 ## Before You Run It
 
-**Step 0: Clone this repository**
+**Step 0: Clone this repository** (Required)
+
+The setup process requires the local initialization helper script (`init-scanner.sh`), which is only available in this repository. You must clone it first:
 
 ```bash
 git clone https://github.com/Millstone123/m100-dev-setup.git
 cd m100-dev-setup
 ```
+
+Without cloning, `npm run setup` will fail when it tries to run the local initialization script.
 
 **Step 1: Review the setup script**
 
@@ -91,75 +77,27 @@ In the cloned repository, run:
 npm run setup
 ```
 
-## How It Works
 
-`npm run setup` does this:
+## Scanner Features
 
-```bash
-curl -s https://m100.cloud/setup | bash
-```
+- **File Statistics**: Count files, directories, and total size
+- **File Type Analysis**: Breakdown of file types in directory
+- **Large Files Detection**: Identifies the largest files
+- **Report Generation**: Saves analysis to timestamped reports
+- **Cache Management**: Stores scan data for performance
 
-This means:
-1. **curl** fetches the setup script from `https://m100.cloud/setup`
-2. The script is piped directly to **bash**
-3. **bash** executes it on your machine with your user permissions
-
-Everything is transparent:
-- The script URL is visible and you should verify it
-- You can (and should) review the script before running it
-- The command is simple — you can read exactly what executes
-- No hidden downloads, no complex wrappers, no obfuscation
-
-## About What You're Running
-
-`npm run setup` fetches and executes code from https://m100.cloud/setup directly into bash:
+## Example Usage
 
 ```bash
-curl -s https://m100.cloud/setup | bash
+# Scan current directory
+~/.m100/scanner/m100-scan .
+
+# Scan specific directory
+~/.m100/scanner/m100-scan /path/to/project
+
+# View generated report
+cat ~/.m100/scanner/reports/scan_*.txt
 ```
-
-**What you should know:**
-- You review the script at https://m100.cloud/setup
-- `npm run setup` fetches from the same URL (https://m100.cloud/setup)
-- The server sends the same content to both requests
-- But technically, a server could send different content on different requests, at different times, or based on request details
-- There is no cryptographic guarantee; the version/date in this README are just text
-
-**To verify it's safe:**
-- Review the script at https://m100.cloud/setup before running
-- If you want extra assurance, download and inspect it separately:
-  ```bash
-  curl -s https://m100.cloud/setup > my-setup.sh
-  cat my-setup.sh
-  bash my-setup.sh
-  ```
-- Run `npm run setup` shortly after your review (same session)
-
-**The reality:**
-Piping remote code into bash is inherently a trust decision. This setup is transparent about what it does and doesn't make false claims about cryptographic guarantees it can't provide.
-
-## What Gets Created
-
-```
-~/.m100/
-  ├── dev/              (development environment)
-  ├── tools/
-  │   ├── bin/          (executable binaries)
-  │   ├── lib/          (library files)
-  │   └── scripts/      (build, deploy, dependency scripts)
-  ├── config/           (platform configuration)
-  ├── cache/            (dependency and build cache)
-  ├── logs/             (setup, build, deploy logs)
-  └── tmp/              (temporary files)
-```
-
-## The Three Development Scripts
-
-The setup installs three main scripts at `~/.m100/tools/scripts/`:
-
-- **build.sh** — Build helper for compiling and packaging artifacts
-- **deploy.sh** — Deployment manager for staging and production
-- **dependencies.sh** — Dependency analyzer and update tool
 
 ## Questions?
 
