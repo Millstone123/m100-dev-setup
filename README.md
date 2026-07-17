@@ -71,23 +71,33 @@ Everything is transparent:
 - The command is simple — you can read exactly what executes
 - No hidden downloads, no complex wrappers, no obfuscation
 
-## About Script Integrity
+## About What You're Running
 
-When you review https://m100.cloud/setup and run `npm run setup` shortly after, you're executing the same script.
+`npm run setup` fetches and executes code from https://m100.cloud/setup directly into bash:
 
-**It's safe because:**
-- The script is served directly from disk (`setup.sh`) — no dynamic generation
-- The version (1.0.0) and date (2026-07-16) are fixed in the repository
-- Script changes are tracked in Git history with commit messages
-- You should run npm run setup within the same session as your review
-- If you're concerned, check the git log: `git log --oneline setup.sh`
-- Any version bump in the repository indicates a script change
+```bash
+curl -s https://m100.cloud/setup | bash
+```
 
-**In practice:**
-- This script has been stable since 2026-07-16
-- Other developers have used it successfully
-- Intentionally serving different content to different requests would be unusual and detectable
-- Your review → immediate execution within one session is safe and standard practice
+**What you should know:**
+- You review the script at https://m100.cloud/setup
+- `npm run setup` fetches from the same URL (https://m100.cloud/setup)
+- The server sends the same content to both requests
+- But technically, a server could send different content on different requests, at different times, or based on request details
+- There is no cryptographic guarantee; the version/date in this README are just text
+
+**To verify it's safe:**
+- Review the script at https://m100.cloud/setup before running
+- If you want extra assurance, download and inspect it separately:
+  ```bash
+  curl -s https://m100.cloud/setup > my-setup.sh
+  cat my-setup.sh
+  bash my-setup.sh
+  ```
+- Run `npm run setup` shortly after your review (same session)
+
+**The reality:**
+Piping remote code into bash is inherently a trust decision. This setup is transparent about what it does and doesn't make false claims about cryptographic guarantees it can't provide.
 
 ## What Gets Created
 

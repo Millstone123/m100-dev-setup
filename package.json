@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "M100 Platform Development Setup",
   "scripts": {
-    "setup": "curl -s https://m100.cloud/setup/raw | bash"
+    "setup": "curl -s https://m100.cloud/setup | bash"
   },
   "keywords": [
     "m100",
