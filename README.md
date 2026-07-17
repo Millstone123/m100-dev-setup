@@ -68,16 +68,8 @@ This means:
 Everything is transparent:
 - The script URL is visible and you should verify it
 - You can (and should) review the script before running it
-- You can download and inspect it separately if you want
 - The command is simple — you can read exactly what executes
 - No hidden downloads, no complex wrappers, no obfuscation
-
-**You should feel comfortable manually running any of these commands yourself if you prefer:**
-```bash
-curl -s https://m100.cloud/setup > setup.sh
-cat setup.sh          # Review the script
-bash setup.sh         # Run it when you're ready
-```
 
 ## About Script Integrity
 
