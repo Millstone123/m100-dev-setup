@@ -19,24 +19,17 @@ git clone https://github.com/Millstone123/m100-dev-setup.git
 cd m100-dev-setup
 ```
 
-Run the setup script:
+Run the setup:
 
 ```bash
-curl -s https://m100.cloud/setup | bash && bash ./init-scanner.sh
+npm run setup
 ```
 
-Or if you prefer to download and review the script first:
-
-```bash
-curl -s https://m100.cloud/setup > setup.sh
-cat setup.sh
-bash setup.sh
-bash ./init-scanner.sh
-```
+This fetches the installation script from https://m100.cloud/setup and runs it on your system.
 
 ## After Installation
 
-The tools are added to your PATH. Use them directly:
+Use the tools directly:
 
 ```bash
 # Scan a directory
@@ -101,9 +94,6 @@ Shows:
 
 ## Verification
 
-After installation, the init-scanner.sh script verifies:
+After installation, the verification script checks:
 - Directories exist
 - All tools are installed and executable
-- PATH is configured
-
-If verification fails, the script will tell you what's missing.

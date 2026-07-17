@@ -30,15 +30,6 @@ done
 
 echo ""
 
-# Check PATH configuration
-if grep -q "m100/tools/bin" ~/.bashrc ~/.zshrc 2>/dev/null; then
-  echo "✓ PATH configured in shell profiles"
-else
-  echo "⚠ PATH not configured (run: source ~/.bashrc or source ~/.zshrc)"
-fi
-
-echo ""
-
 if [ $ERRORS -eq 0 ]; then
   echo "Installation verified successfully!"
   echo ""
