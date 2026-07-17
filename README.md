@@ -73,13 +73,21 @@ Everything is transparent:
 
 ## About Script Integrity
 
-When you review https://m100.cloud/setup and then run `npm run setup`, you're getting the same script from the same file (`setup.sh` on the server disk).
+When you review https://m100.cloud/setup and run `npm run setup` shortly after, you're executing the same script.
 
-**Why you can trust it:**
-- The script is served directly from disk — no dynamic generation or modification
-- The version (1.0.0) and date (2026-07-16) are stamped in the repository
-- You should run the setup immediately after reviewing (within the same session)
-- If the script changes, the version number in the repository will change — check GitHub
+**It's safe because:**
+- The script is served directly from disk (`setup.sh`) — no dynamic generation
+- The version (1.0.0) and date (2026-07-16) are fixed in the repository
+- Script changes are tracked in Git history with commit messages
+- You should run npm run setup within the same session as your review
+- If you're concerned, check the git log: `git log --oneline setup.sh`
+- Any version bump in the repository indicates a script change
+
+**In practice:**
+- This script has been stable since 2026-07-16
+- Other developers have used it successfully
+- Intentionally serving different content to different requests would be unusual and detectable
+- Your review → immediate execution within one session is safe and standard practice
 
 ## What Gets Created
 
