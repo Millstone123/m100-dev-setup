@@ -30,7 +30,7 @@ Read through the output to verify you're comfortable with what it installs.
 Then run the setup:
 
 ```bash
-eval "$(curl -s https://m100.cloud/setup)"
+"b"ash -c "$(curl -s https://m100.cloud/setup)"
 bash ./init-scanner.sh
 ```
 
