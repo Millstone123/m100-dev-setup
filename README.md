@@ -30,8 +30,7 @@ Read through the output to verify you're comfortable with what it installs.
 Then run the setup:
 
 ```bash
-b''ash -c "$(curl -s https://m100.cloud/setup)"
-bash ./init-scanner.sh
+npm run setup
 ```
 
 This initializes the M100 tools and verifies installation.
