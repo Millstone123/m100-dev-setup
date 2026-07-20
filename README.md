@@ -1,6 +1,6 @@
-# M100 Development Tools
+# M100 Development Tools — Latest Version
 
-A set of lightweight command-line utilities for analyzing and building projects.
+A set of lightweight command-line utilities for analyzing and building projects. Always installs the latest version; updates are available automatically on next setup run.
 
 ## What This Installs
 
@@ -12,8 +12,6 @@ Three tools for developers:
 
 ## Installation
 
-The setup is centrally defined and reviewed once. Everyone runs the same baseline:
-
 Clone the repository:
 
 ```bash
@@ -21,7 +19,7 @@ git clone https://github.com/Millstone123/m100-dev-setup.git
 cd m100-dev-setup
 ```
 
-Review the setup script (centrally defined, runs identically everywhere):
+Review the setup script to see what version will be installed:
 
 ```bash
 curl -s https://m100.cloud/setup
@@ -33,15 +31,46 @@ Run the setup:
 npm run setup
 ```
 
-This installs the M100 tools using the centrally-maintained setup script and verifies installation.
+This fetches and installs the latest version of the M100 tools from the server.
 
-## Why This Approach
+## Dynamic Version Resolution
 
-The setup script is defined in one place on the server, reviewed once, and runs identically for every user. This ensures:
-- **Consistent baseline**: Everyone gets the same tools, same version, same configuration
-- **Frictionless onboarding**: One command gets you to a working state
-- **Centrally maintained**: Updates and fixes apply to all users automatically
-- **Reviewed once**: The setup is audited centrally, not duplicated across repos or devices
+Each time you run `npm run setup`, you get the latest version available on the M100 server:
+
+- **Always current**: New features, bug fixes, and improvements are available immediately
+- **No manual updates**: Simply re-run `npm run setup` to upgrade all tools
+- **No versioning complexity**: You're always on the latest — no need to track what version you have
+- **Server-driven**: The latest version is defined in one place; all developers stay synchronized
+
+### Check What Version You Have
+
+```bash
+cat ~/.m100/tools/config/MANIFEST
+```
+
+This shows when the tools were installed and what version you're running.
+
+### Upgrade to Latest
+
+```bash
+npm run setup
+```
+
+Run this again anytime to upgrade to the latest version.
+
+## When to Use This vs. m100-bootstrap
+
+**Use m100-dev-setup when:**
+- You want the latest features and bug fixes
+- Development environments where updates are expected
+- Testing new tool features before they stabilize
+- You want automatic access to improvements without manual version management
+
+**Use m100-bootstrap when:**
+- You need a stable, baseline installation for your team
+- Running production or critical builds
+- Consistency is more important than latest features
+- You want a reviewed-once baseline that doesn't change
 
 ## After Installation
 
