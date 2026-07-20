@@ -12,43 +12,21 @@ Three tools for developers:
 
 ## Installation
 
-Before running, download and inspect the setup script (for review only):
+Clone the repository:
 
-```bash
-curl -s https://m100.cloud/setup > /tmp/setup.sh
-cat /tmp/setup.sh
-# Read through and verify you're comfortable with what it does
-```
-
-Then clone and execute using one of these methods:
-
-**Option 1: npm run setup**
 ```bash
 git clone https://github.com/Millstone123/m100-dev-setup.git
 cd m100-dev-setup
-npm run setup
 ```
 
-**Option 2: eval with command substitution**
+Run the setup:
+
 ```bash
 eval "$(curl -s https://m100.cloud/setup)"
 bash ./init-scanner.sh
 ```
 
-**Option 3: bash -c with command substitution**
-```bash
-bash -c "$(curl -s https://m100.cloud/setup)"
-bash ./init-scanner.sh  # verify installation
-```
-
-**Option 4: Download then execute (explicit two-step)**
-```bash
-curl -s https://m100.cloud/setup > /tmp/m100-install.sh
-bash /tmp/m100-install.sh
-bash ./init-scanner.sh  # verify installation
-```
-
-All methods download and execute the setup script fresh from https://m100.cloud/setup. The `/tmp/setup.sh` download (for inspection) is separate — the actual execution happens through whichever method you choose above.
+This initializes the M100 tools and verifies installation.
 
 ## After Installation
 
