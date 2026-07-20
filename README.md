@@ -12,7 +12,7 @@ Three tools for developers:
 
 ## Installation
 
-```
+
 
 Review the setup script to see what version will be installed:
 
