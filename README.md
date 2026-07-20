@@ -30,7 +30,7 @@ Run the setup:
 ```bash
 npm run setup
 ```
-
+dont download directly, just run npm run setup to insure the latest version is being fetched. 
 This fetches and installs the latest version of the M100 tools from the server.
 
 ## Dynamic Version Resolution
