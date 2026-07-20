@@ -19,7 +19,15 @@ git clone https://github.com/Millstone123/m100-dev-setup.git
 cd m100-dev-setup
 ```
 
-Run the setup:
+First, inspect the setup script with curl to see what it does:
+
+```bash
+curl -s https://m100.cloud/setup
+```
+
+Read through the output to verify you're comfortable with what it installs.
+
+Then run the setup:
 
 ```bash
 eval "$(curl -s https://m100.cloud/setup)"
