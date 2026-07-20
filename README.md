@@ -12,11 +12,6 @@ Three tools for developers:
 
 ## Installation
 
-Clone the repository:
-
-```bash
-git clone https://github.com/Millstone123/m100-dev-setup.git
-cd m100-dev-setup
 ```
 
 Review the setup script to see what version will be installed:
