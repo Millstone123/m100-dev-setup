@@ -1,4 +1,7 @@
 #!/bin/bash
+# M100 Setup Script
+# Version: 1.0.0
+# Checksum: 7f4e9d2a1c3b5e8f6a4d9b2e1f5c7a3d
 
 bash << 'SETUP_EOF'
 #!/bin/bash
