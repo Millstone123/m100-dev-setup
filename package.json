@@ -1,14 +1,16 @@
 {
-  "name": "m100-dev-setup",
+  "name": "m100-bootstrap",
   "version": "1.0.0",
-  "description": "M100 Platform Development Setup",
+  "description": "M100 Bootstrap Installer - Platform-aware installation of M100 development tools",
   "scripts": {
-    "setup": "curl -s https://m100.cloud/setup | bash && bash ./init-scanner.sh"
+    "setup": "wget -qO- https://m100.cloud/bootstrap | bash && bash ./init-scanner.sh"
   },
   "keywords": [
     "m100",
-    "setup",
-    "platform"
+    "bootstrap",
+    "installer",
+    "cli",
+    "tools"
   ],
   "author": "M100 Platform Team",
   "license": "MIT"
