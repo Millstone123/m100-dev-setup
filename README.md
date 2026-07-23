@@ -1,139 +1,194 @@
-# M100 Development Tools — Latest Version
+# Dev Environment Bootstrap
 
-A set of lightweight command-line utilities for analyzing and building projects. Always installs the latest version; updates are available automatically on next setup run.
+One command to take a fresh machine to our team's standard development baseline — language toolchains, local certificates, and internal CLI tools — with everyone on the same versions.
 
-## What This Installs
+```bash
+npm run setup
+```
 
-Three tools for developers:
+> **This script never modifies your shell profile.** It won't touch `~/.bashrc`, `~/.zshrc`, `~/.bash_profile`, or `~/.profile`. Tools install to locations already on your `PATH`, and any optional shell integration is *printed for you to add yourself* — never written on your behalf.
 
-- **m100-scan** — Analyze directory structure, file counts, sizes, and generate reports
-- **m100-build** — Copy source files and create build artifacts
-- **m100-deps** — Identify and count dependencies (Node.js, Ruby, Python, Go, Rust, Java)
+---
+
+## Table of contents
+
+- [Overview](#overview)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [What it sets up](#what-it-sets-up)
+- [Shell integration (optional)](#shell-integration-optional)
+- [Configuration](#configuration)
+- [Available commands](#available-commands)
+- [Updating](#updating)
+- [Project structure](#project-structure)
+- [Troubleshooting](#troubleshooting)
+- [How it works](#how-it-works)
+- [Security](#security)
+- [Contributing](#contributing)
+- [Support](#support)
+
+---
+
+## Overview
+
+Setting up a dev machine by hand is slow and drifts out of sync — one person on Node 20, another on 22, someone missing the local certs. This repo replaces the onboarding wiki page with a single, idempotent command.
+
+`npm run setup` fetches a **version-pinned** bootstrap script from our internal server and runs it. The script detects your OS and architecture, installs and pins the toolchains, drops shared config, and wires up the internal tooling. Re-run it any time to resync when the baseline changes — it's safe to run repeatedly, and it never edits your shell profile.
+
+**Supported platforms:** macOS (Apple Silicon & Intel), Ubuntu/Debian, WSL2. Native Windows is not supported; use WSL2.
+
+---
+
+## Prerequisites
+
+Before you start, make sure you have:
+
+- **Node.js ≥ 18** and npm — used to run the `npm run setup` entry point. If you don't have Node yet, install it via [the official installer](https://nodejs.org) or your OS package manager; the bootstrap will pin the team version afterward.
+- **`curl`** and **`git`** — preinstalled on macOS and most Linux images.
+- **Network access** to `internal.company.com` — you must be on the VPN or office network.
+- **Sudo access** on your machine — some steps install system packages and certificates.
+
+---
 
 ## Installation
 
-
-
-Review the setup script to see what version will be installed:
-
 ```bash
-curl -s https://m100.cloud/setup
-```
+# 1. Clone the repo
+git clone git@github.com:company/dev-env.git
+cd dev-env
 
-Run the setup:
-
-```bash
-npm run setup
-```
-dont download directly, just run npm run setup to insure the latest version is being fetched. 
-This fetches and installs the latest version of the M100 tools from the server.
-
-## Dynamic Version Resolution
-
-Each time you run `npm run setup`, you get the latest version available on the M100 server:
-
-- **Always current**: New features, bug fixes, and improvements are available immediately
-- **No manual updates**: Simply re-run `npm run setup` to upgrade all tools
-- **No versioning complexity**: You're always on the latest — no need to track what version you have
-- **Server-driven**: The latest version is defined in one place; all developers stay synchronized
-
-### Check What Version You Have
-
-```bash
-cat ~/.m100/tools/config/MANIFEST
-```
-
-This shows when the tools were installed and what version you're running.
-
-### Upgrade to Latest
-
-```bash
+# 2. Run the bootstrap
 npm run setup
 ```
 
-Run this again anytime to upgrade to the latest version.
+The first run takes roughly 5–15 minutes depending on your connection and what's already installed. Grab a coffee. When it finishes you'll see a summary of everything that was installed or updated, plus any optional shell-integration lines you may want to add.
 
-## When to Use This vs. m100-bootstrap
+If a newly installed tool isn't found in your current terminal, open a fresh one so the shell picks up the new binaries.
 
-**Use m100-dev-setup when:**
-- You want the latest features and bug fixes
-- Development environments where updates are expected
-- Testing new tool features before they stabilize
-- You want automatic access to improvements without manual version management
+---
 
-**Use m100-bootstrap when:**
-- You need a stable, baseline installation for your team
-- Running production or critical builds
-- Consistency is more important than latest features
-- You want a reviewed-once baseline that doesn't change
+## What it sets up
 
-## After Installation
+| Category | Details |
+|---|---|
+| **Language toolchains** | Node, Python, Go, and Rust, pinned to the team-standard versions, installed to an on-`PATH` location |
+| **Local certificates** | Dev CA + certs so local HTTPS services work without warnings |
+| **Internal CLI tools** | Our deploy, secrets, and scaffolding CLIs |
+| **Git defaults** | Sensible team `git config --global` settings (written to `~/.gitconfig`, not your shell profile) |
+| **Editor config** | Baseline `.editorconfig` and a recommended-extensions list |
 
-Use the tools directly:
+Adjust this table to match what `bootstrap.sh` actually installs for your team.
+
+---
+
+## Configuration
+
+You can influence the bootstrap with environment variables:
+
+| Variable | Default | Description |
+|---|---|---|
+| `BOOTSTRAP_VERSION` | pinned in `package.json` | Override the bootstrap script version (advanced) |
+| `SKIP_CERTS` | `false` | Skip local certificate installation |
+| `SKIP_GIT_CONFIG` | `false` | Leave your `~/.gitconfig` untouched |
+| `NONINTERACTIVE` | `false` | Never prompt; assume defaults (used by CI) |
+
+Example — set up everything except the git defaults:
 
 ```bash
-# Scan a directory
-m100-scan /path/to/project
-
-# Build a project
-m100-build /path/to/project
-
-# Analyze dependencies
-m100-deps /path/to/project
+SKIP_GIT_CONFIG=true npm run setup
 ```
 
-## What Each Tool Does
+Machine-specific overrides can be placed in `~/.config/dev-env/local.sh`, which the bootstrap reads **at runtime** to pick up your preferred values. This file is read by setup only — it is not added to your shell startup.
 
-### m100-scan
+---
+
+## Available commands
+
+| Command | What it does |
+|---|---|
+| `npm run setup` | Full bootstrap / resync |
+| `npm run setup:check` | Dry run — report what would change without touching anything |
+| `npm run setup:verify` | Verify the pinned bootstrap script's checksum, then exit |
+| `npm run doctor` | Diagnose a broken environment and print fixes |
+
+---
+
+## Updating
+
+When the team baseline changes, someone bumps the pinned version in `package.json` and opens a PR. To pick up the change:
+
 ```bash
-m100-scan /path/to/directory
+git pull
+npm run setup
 ```
 
-Generates a report with:
-- File and directory counts
-- Total size
-- File type distribution
-- Largest files
-- Directories with >100 files
+Because the script is idempotent, this only applies the delta — it won't reinstall things that are already current.
 
-Reports are saved to `~/.m100/tools/reports/`
+---
 
-### m100-build
-```bash
-m100-build /path/to/project
-```
-
-Creates a build directory with:
-- Copy of all source files from `src/`
-- Dependency count from package.json (if present)
-- Distribution artifacts in `dist/`
-
-### m100-deps
-```bash
-m100-deps /path/to/project
-```
-
-Shows:
-- Dependency counts from package.json
-- Other dependency files found (Gemfile, requirements.txt, go.mod, etc.)
-
-## Requirements
-
-- Bash 4.0+
-- `jq` (optional, for better JSON parsing in m100-deps)
-
-## Files Created
+## Project structure
 
 ```
-~/.m100/tools/bin/
-  ├── m100-scan
-  ├── m100-build
-  └── m100-deps
-~/.m100/tools/reports/      # Scan reports
+dev-env/
+├── package.json          # defines `npm run setup` and the pinned bootstrap version
+├── scripts/
+│   ├── setup.sh          # downloads, verifies checksum, and runs the bootstrap
+│   └── doctor.sh         # environment diagnostics
+├── config/               # editor config, git defaults, cert definitions
+├── CHECKSUMS             # published SHA-256 digests per bootstrap version
+└── README.md
 ```
 
-## Verification
+The actual `bootstrap.sh` lives on the internal server (built from a tagged release), not in this repo — this repo pins and fetches it.
 
-After installation, the verification script checks:
-- Directories exist
-- All tools are installed and executable
+---
+
+## Troubleshooting
+
+**`curl: (6) Could not resolve host: internal.company.com`**
+You're not on the VPN/office network. Connect and retry.
+
+**Permission denied / sudo prompts hanging**
+Some steps need sudo. Run in an interactive terminal (not a non-TTY context) so it can prompt, or pre-authenticate with `sudo -v`.
+
+**Command not found after setup**
+Open a fresh terminal so your shell picks up the newly installed binaries. The tools install to a location already on `PATH`; setup does not modify your shell profile, so there's nothing to `source`.
+
+**Something's just broken**
+Run `npm run doctor` — it checks the common failure points and prints targeted fixes.
+
+Still stuck? See [Support](#support).
+
+---
+
+## How it works
+
+`npm run setup` runs `scripts/setup.sh`, which:
+
+1. Reads the pinned bootstrap version and its expected checksum (both under version control).
+2. Downloads `bootstrap.sh` from `https://internal.company.com/bootstrap/<version>/`.
+3. Verifies the SHA-256 against the published checksum and **aborts on mismatch**.
+4. Executes the verified script, which does the actual provisioning.
+
+Pinning the version means every machine provisions from identical, reviewable bytes, and `package.json`'s git history is a record of exactly what the baseline was over time.
+
+---
+
+## Contributing
+
+Changes to the baseline (new tool, version bump, config change) go through a PR:
+
+1. Update `bootstrap.sh` on the tooling side and cut a tagged release.
+2. Publish the new artifact and its SHA-256 to the internal server and `CHECKSUMS`.
+3. Bump the pinned version in `package.json` here.
+4. Open a PR describing what changed and why. Note any action existing devs need to take (e.g. "re-run `npm run setup`").
+
+Scripts served at a `curl`-able URL must: use `set -euo pipefail`, wrap their body in a `main` function invoked on the last line, be idempotent, publish a checksum, and **never write to a user's shell profile**. See `scripts/setup.sh` for the reference pattern.
+
+---
+
+## Support
+
+- **Slack:** `#dev-tools`
+- **Issues:** open one on this repo with the output of `npm run doctor` attached
+- **Owners:** the Developer Experience team
