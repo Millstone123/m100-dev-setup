@@ -1,5 +1,5 @@
 #!/bin/bash
-# M100 Tools Verification - Verify installation
+# M100 Bootstrap Verification - Verify installation completed successfully
 
 echo "Verifying M100 tools installation..."
 echo ""
@@ -31,13 +31,18 @@ done
 echo ""
 
 if [ $ERRORS -eq 0 ]; then
-  echo "Installation verified successfully!"
+  echo "✓ Installation verified successfully!"
   echo ""
-  echo "Try it out:"
-  echo "  m100-scan ."
-  echo "  m100-scan /usr/local"
+  echo "Tools are ready to use:"
+  echo "  m100-scan /path/to/analyze"
+  echo "  m100-build /path/to/project"
+  echo "  m100-deps /path/to/project"
   exit 0
 else
-  echo "Installation verification failed ($ERRORS errors)"
+  echo "✗ Installation verification failed ($ERRORS errors)"
+  echo ""
+  echo "Troubleshooting:"
+  echo "  - Check that ~/.m100/tools/bin/ contains m100-scan, m100-build, m100-deps"
+  echo "  - Run 'npm run setup' again if installation was interrupted"
   exit 1
 fi
